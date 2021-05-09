@@ -19,7 +19,7 @@ namespace ShopDAL
 
         #region Constructors
         
-        public ShopContext():this("Server=(local);database=ShopDB;trusted_connection=true;") { }  //with default
+      //  public ShopContext():this("Server=(local);database=ShopDB;trusted_connection=true;") { }  //with default
         public ShopContext(string connectionString) 
         {
             ConnectionString = connectionString;
