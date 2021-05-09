@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using ShopDAL;
 
-namespace ShopAPI.Controllers
+namespace ShopWebAPI.Controllers
 {
 
     [ApiController]

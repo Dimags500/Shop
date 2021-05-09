@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using ShopDAL;
 
-namespace ShopWebAPI
+namespace ShopWebAPI.Controllers
 {
 
     [ApiController]
@@ -89,7 +89,9 @@ namespace ShopWebAPI
 
         private User FindUser(int userID)
         {
-            return ShopContext.Users.FirstOrDefault(u=>u.UserID == userID);
+            User x = null;
+            x = ShopContext.Users.FirstOrDefault(u=>u.UserID == userID);
+            return x;
         }
     }
 }

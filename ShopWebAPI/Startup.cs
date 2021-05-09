@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using ShopDAL;
+using Newtonsoft.Json.Serialization;
 
 
 namespace ShopWebAPI
@@ -29,7 +30,7 @@ namespace ShopWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //option 1
-            //services.AddControllers();
+           // services.AddControllers();
             // services.AddDbContext<EfDebilContext>();
             //services.AddControllers(option =>
             //{
@@ -40,13 +41,13 @@ namespace ShopWebAPI
             //option2
             services.AddDbContext<ShopContext>(
 
-                options => { options.UseSqlServer(Configuration.GetConnectionString("Shop")); }
-                );
+                options => { options.UseSqlServer(Configuration.GetConnectionString("Shop")); });
 
             if (Environment.IsDevelopment())
                 services.AddControllers(configure => configure.Filters.Add<LogActionFilter>());
             else
                 services.AddControllers();
+
 
 
 
@@ -56,7 +57,7 @@ namespace ShopWebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseMiddleware<ExceptionHandler>(env);
+           // app.UseMiddleware<ExceptionHandler>(env);
 
             if (env.IsDevelopment())
             {
