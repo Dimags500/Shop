@@ -1,0 +1,17 @@
+0.Create a class library that wraps the access to Shop database that consists Users,Orders,Products data.
+	a. apply data annotations for model input validations.
+1.Create ASP.NET Core  REST API project that wraps the Shop class library and allows Web API access to the data.
+2.Impelment CRUD API for Users,Orders,Products in seperate controllers , for each controller : 
+	a. Impelment HttpPost mehtod to enable Create operation ,recieve JSON data from request body
+		*when adding new resource return created status code with the location of the resource
+		*When trying to Add an existing resource return bad request status code
+	b. Impelment HttpPut mehtod to enable Update operation ,recieve JSON data from request body
+	c. Impelment HttpDelete mehtod to enable  Delete operation ,recieve data from request route
+	d. Impelment HttpGet mehtod to enable Read operation ,recieved data from request route
+3. Log any controller handler access to the debug output inside the controller action
+4. Implement general exception middleware handler that returns its message in a JSON format only if in Development environment 
+5. Take the connection string value from appsettings.json connectionStrings key and use it on ShopDbContext.OnConfiguring method.
+6. (Replace section 3) Log any controllers actions access in the debug output using filters only when in development enviroment
+7. Enable Swagger API interface by installing Swashbuckle.AspNetCore package and configuring it according its github documentation
+8. Host the ShopWebAPI in IIS .
+9. Create ShopConsoleClient that uses the ShopWebAPI and display all products in its console.

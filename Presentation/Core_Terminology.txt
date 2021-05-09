@@ -1,0 +1,135 @@
+--A. Network tools:
+1.ping - checking remote machine response
+2.Telnet- connecting to a remote machine service.
+3.curl - A command-line tool for getting or sending data including files using URL syntax.
+4.netstat -f -o - listing local to remote connections
+5.nslookup ynet.co.il - querying about a host dns entries
+6.Postman  - verbose service tester
+7.Swagger - Service to display web API documentation
+--B. Network ,protocols terms:
+1.MAC address - "Media access control" address is a unique identifier assigned to a network interface controller (NIC) for use as a network address in communications within a network segment.
+2.IP - Internet protocol  x.x.x.x	(example: 40.113.200.201)
+3.Port	(http,https)
+4.DNS - Domain name service [hostName]:[networkName]  (example: msn.co.il)
+5.URL - Uniform Resource Locator - (example: http://msn.co.il/sport/22)
+6.HTTP - hyper text transfer protocol - application layer protocol for distributed, 
+		  collaborative, hypermedia information systems, 
+		  request–response protocol in the client–server computing model.
+https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol
+7. HTTP methods/verbs - (get , post , put ,delete) indicate the desired action to be performed on a URL
+8. HTTP status codes - 
+	a. 200 - 299 success codes. (200=OK , 201=Created , 202=Accepted ,204=NoContent(Update|Delete))
+	b. 300 - 399 redirection codes. 
+	c. 400 - 499 client error codes. (401=Unauthorized, 403=Forbidden ,404=Not Found)
+	d. 500 - 599 server error codes.(500=Internal Server Error)
+https://en.wikipedia.org/wiki/Create,_read,_update_and_delete
+9. CRUD - create, read, update, and delete (CRUD) is a software architectural style regarding the four basic operations of persistent storage. 
+10. REST - "Representational state transfer" is a software architectural style which uses a subset of HTTP,It is commonly used to create interactive applications that use Web services.
+--C. Data formats:
+1.JSON - Javascript object notation. {"[key]":"[value]"} 
+https://www.w3schools.com/whatis/whatis_json.asp
+	a.Data is in name/value pairs.
+	b.Data is separated by commas.
+	c.Curly braces hold objects.
+	d.Square brackets hold arrays.
+2.XML - Extensible markup language.	 <[elemantName]>[Text|Element]</[elemantName]>
+https://www.w3schools.com/xml/xml_whatis.asp
+--D. .Net general:
+1. CLR - Common Language Runtime  - handles memory allocation and management. A CLR is also a virtual machine that not only executes apps but also generates and compiles code on-the-fly using a JIT compiler.
+2. Cross platform - The ability to develop and execute an application that can be used on multiple different operating systems, such as Linux, Windows, and iOS, without having to rewrite specifically for each one. This enables code reuse and consistency between applications on different platforms.
+3. Framework - Comprehensive collection of APIs that facilitates development and deployment of applications that are based on a particular technology. In this general sense, ASP.NET Core and Windows Forms are examples of application frameworks. 
+4. NET Framework - Runs only on Windows. Includes the Common Language Runtime (CLR), the Base Class Library (BCL), latest (and maybe last) version is 4.8.
+5. Net Core - a free and open-source, managed computer software framework for Windows, Linux, and macOS operating systems. It is a cross-platform successor to .NET Framework.
+6. .NET 5 and later versions - A cross-platform, high-performance, open-source implementation of .NET, Includes a Common Language Runtime (CLR) , a Base Class Library (BCL), previously called .NET CORE.
+--E. ASP.Net:
+1. ASP.NET - extends the .NET platform with tools and libraries specifically for building web sites , services.
+2. ASP.NET CORE - A cross-platform, higher-performance, open-source implementation of ASP.NET.
+3. Web apps - server application that mostly used by humans ,mostly returns UI data in HTML,CSS,JS,Images format, additionaly can return any other type of data.
+4. Web API apps  - server application that mostly in used by other applications ,mostly returns data in JSON,XML format.
+--F. ASP.NET Core fundamentals:
+https://docs.microsoft.com/en-us/aspnet/core/fundamentals
+1. The Startup class - the class that contains ConfigureServices method to configure the app's services, Configure method to create the app's request processing pipeline.
+2. Middleware - The request handling pipeline is composed as a series of middleware components. 
+   Each component performs operations on an HttpContext and either invokes the next middleware in the pipeline or terminates the request.
+https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware
+   a. Use - Adds a middleware delegate defined in-line to the application's request pipeline.
+   b. Run - Adds a terminal middleware delegate to the application's request pipeline.
+   c. Map - Branches the request pipeline based on matches of the given request path. If the request path starts with the given path, the branch is executed.
+   
+   To add custom middleware , add a class , recieve RequestDelegate parameter type in its constructor, 
+   add public async Task Invoke(HttpContext httpContext) method that implements its own logic and calls the next handler with requestDelegate(httpContext)
+3. API controller - class that contains HTTP requests handlers for CRUD operations that can return data.
+https://docs.microsoft.com/en-us/aspnet/core/web-api/
+4. Routing - a URL pattern that is mapped to a handler. The handler can be a Razor page, 
+	an action method in an MVC controller, or a middleware. ASP.NET Core routing gives you control over the URLs used by your app.
+--
+5. Model binding - mapping the data recieved from the request to method handlers parameters.
+	a. Get,Delete - will bind automaticly from the route , if recieving from other ways like query string we need to explicitly mention [FromQuery]
+	b.Post,Put - will bind automaticly from request body , if recieving from other ways like form we need to explicitly mention [FromForm]
+*when uploading file prefer using form 	due to performance and simplicity
+--
+6.Model validation-we should never trust the data that recieved from the client (security ,integrity), for this reasons we should validate the data.
+	a.by default validation happens due to validaton filter (that is enabled by adding ApiController to the class) 
+	the that processing data annotation that was defind on the model.
+	b.to suppress default model validation filter and do manual validation using ModelState class, add in conifgureServices: 
+	services.Configure<ApiBehaviorOptions>(options =>
+				{
+					options.SuppressModelStateInvalidFilter = true;
+				});
+--
+7.Action Return Type - 
+	a. ActionResult is a base class that wraps any data that returns to the client ,the default ActionResult is a JSON result .
+	b.if we want to return a file use FileContentResult
+	c.when using ActionResult or FileContentResult we can control the httpStatusCode when returning data to the client.
+8. Controller filters - In Startup.Configure in the AddController middleware add the Logic that runs before and after every controller method handlers ,available filters:
+	a.result - executes only after controller method handler
+	b.action -Inharit IAsyncActionFilter
+	c.exception - 	Inharit IExceptionFilter , to return a result use httpContext.Result 
+	d.service
+https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters
+9. App service -  A reusable component that provides app functionality. Services are registered in ConfigureServices 
+   and consumed across the app via dependency injection (DI) or ApplicationServices.
+10. Dependency injection - Software design pattern that is in use in ASP.NET CORE, that enable recieving an instance 
+   of a preconfigured class in a depended class constructor or function, the preconfiguration in the
+   ConfigureServices method , enables control of the type, lifetime of the provided instance that can be:
+   a. Transient - creates a new instance of the service, every time you request it.  
+   b. Scoped: creates a new instance for every scope. (Each request is a Scope). Within the scope, it reuses the existing service.
+   c. Singleton: Creates a new Service only once during the application lifetime, and uses it everywhere.
+11. Host - encapsulates all of the app's resources, such as:
+	a. An HTTP service implementation
+	b. Middleware components
+	c. Logging
+	d. Dependency injection (DI) services
+	e. Configuration.
+11. HTTP service - application that listens for HTTP requests, Like IIS (internet infomation services) can be added on Windows os using add features.
+12. Configuration - ASP.NET Core provides a configuration framework that gets settings as name-value pairs from an ordered set of configuration providers.
+	Built-in configuration providers are available for a variety of sources, such as .json files (default), .xml files, environment variables, and command-line arguments. 
+    The default host builder will bind the appsettings to Configuration class static instance,
+	to use it in any class , inject it in the class constructor , using service.Configure adds the class as a singleton instance
+13. Environments - Execution environments are set from the files that exists in root folder with name appsetting.[enviromentName].json , 
+	the specific settings overrides the default.
+	there are 3 default enviroments:
+	a. Development - enviroment for the developers , designers.
+	b. Staging - a nearly exact replica of a production environment for software testing and quality assurance (QA) team.
+	c. Production - enviroment for the clients.
+14. Logging -  default logging API has been add since Core 2.0 version , inject ILogger in the class constructor to use it 
+15. Error handling - ASP.NET Core has built-in features for handling errors, such as:
+	a. A developer exception page
+	b. Custom error pages
+	c. Static status code pages
+	d. Startup exception handling.
+16. Hosting in IIS server:
+	a. Make sure the ASP.NET Core runtime is installed on the server.
+	https://dotnet.microsoft.com/download/dotnet/5.0	
+	b. Create a web site in IIS	, assign user that is allowed access to database in the web site app pool 
+	c. Publish project 
+	d. Copy paste all files from bin/release/[versionX]/publish files to IIS web site .
+	e. When needed access to database set the identity in the web site application pool to an account that has access to the database (like network service)
+	f. In the database security -> logins make sure that the user in the application pool identity has access to the database ,
+	   and has db_datareader,db_datawriter roles.
+
+
+
+
+
+
